@@ -44,7 +44,7 @@ O 'core' da aplicação esta no arquivo 'backEndEOU/Http/Controllers/UserControl
 Testes Unitarios:
 Os teste se encontram em 'backEndEOU/tests/app/http/controllers/UserControllerTest.php'
 
-Para exuctar os destes, em 'backEndEOU/backEndEOU' executar o comando:
+Para executar os testes, em 'backEndEOU/backEndEOU' executar o comando:
 vendor/bin/phpunit
 
 
