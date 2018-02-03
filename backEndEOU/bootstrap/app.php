@@ -23,9 +23,23 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__.'/../')
 );
 
-// $app->withFacades();
+config([
+    "filesystems" => [
+        'default' => 'local',
+        'disks' => [
+            'local' => [
+                'driver' => 'local',
+                'root' => storage_path('app'),
+            ],
+        ],
+    ],
+]);
+
+$app->withFacades();
 
 $app->withEloquent();
+
+$app->configure('filesystems');
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +61,10 @@ $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
     App\Console\Kernel::class
 );
+
+$app->singleton('filesystem', function ($app) {
+    return $app->loadComponent('filesystems', 'Illuminate\Filesystem\FilesystemServiceProvider', 'filesystem');
+});
 
 /*
 |--------------------------------------------------------------------------

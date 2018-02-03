@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -50,27 +50,47 @@ class UserController extends Controller
         }       
     }
     
-    public function Inserir(Request $request)
+    public function Inserir(Request  $request)
     {
 
-
-        validacoes de insercao - depois testes
-    
         try
         {
-            $conteudo = json_decode($request->getContent());
+            $conteudo = json_decode($request->getContent(),true);
+
+          
+            $rules = [
+                'nome' => 'required|max:50',
+                'email' => 'required|max:50|email',
+                'cpf' => 'required|max:50',
+                'telefone' => 'required|max:50',
+                'latitude' => 'required|max:50',
+                'longitude' => 'required|max:50'
+            ];
+
+            $messages = [
+                'required' => 'O campo :attribute é obrigatorio.',
+                'email' => 'O campo :attribute deve ser no formato de e-mail.',
+                'max' => 'O campo :attribute ultrapassou o limite de :max caracteres.',
+            ];
+
+        
+            $validator = Validator::make($conteudo, $rules, $messages);
+            if (!$validator->passes()) {
+                return response()->json($validator->errors()->all(),400);
+            }
+
 
             $user = new User;
-            $user->nome = $conteudo->nome;
-            $user->email = $conteudo->email;
-            $user->cpf = $conteudo->cpf;
-            $user->telefone = $conteudo->telefone;
-            $user->latitude = $conteudo->latitude;
-            $user->longitude = $conteudo->longitude;
+            $user->nome = $conteudo['nome'];
+            $user->email = $conteudo['email'];
+            $user->cpf = $conteudo['cpf'];
+            $user->telefone = $conteudo['telefone'];
+            $user->latitude = $conteudo['latitude'];
+            $user->longitude = $conteudo['longitude'];
     
             $user->save();
 
-            return response()->json(['Sucesso' => 'Usuário cadastrado com sucesso' ]);
+            return response()->json($user);
 
         } catch(\Exception $e){
             
@@ -84,8 +104,15 @@ class UserController extends Controller
     {
         try
         {
-            $arquivo = $request->file('listaUsuarios');
+ 
+            $arquivo = $request->file();
+            $arquivo = reset($arquivo);
 
+
+            if (!$arquivo)
+            {
+                return response()->json(['Erro' => 'Um arquivo CSV deve ser enviado'],400);
+            }
 
             if($arquivo->clientExtension() != 'csv')
             {
@@ -136,20 +163,24 @@ class UserController extends Controller
     {
         $url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='.$latitude.','.$longitude.'&key=AIzaSyDi3M1OFam6pXA0AIxheRs6xo0ES2OsG4o';
         
-        try {
+        try 
+        {
+
             $respostaApi = json_decode(file_get_contents($url), true);
+            
+            $local = '';
+        
+            foreach($respostaApi['results'][0]['address_components'] as $r)
+            {
+                $local .= $r['short_name'].", ";
+            }
+            
+            return $local;
+
         } catch (\Exception $e) {
             return "Geolocalização cadastrada é inválida";
         }
 
-        $local = '';
-
-        foreach($respostaApi['results'][0]['address_components'] as $r)
-        {
-            $local .= $r['short_name'].", ";
-        }
-        
-        return $local;
     }
 
 }

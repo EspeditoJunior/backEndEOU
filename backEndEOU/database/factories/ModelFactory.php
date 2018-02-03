@@ -11,9 +11,16 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
-    return [
-        'name' => $faker->name,
-        'email' => $faker->email,
+$factory->define(App\Models\User::class, function(Faker\Generator $faker){
+    return 
+    [
+        'nome' => $faker->word,
+        'email' => $faker->word,
+        'cpf' => $faker->word,
+        'telefone' => $faker->word,
+        'latitude' => $faker->word,
+        'longitude' => $faker->word,
+        'created_at' => time(),
+        'updated_at' => time()
     ];
 });
