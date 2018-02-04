@@ -113,12 +113,7 @@ class UserController extends Controller
             {
                 return response()->json(['Erro' => 'Um arquivo CSV deve ser enviado'],400);
             }
-
-            if($arquivo->clientExtension() != 'csv')
-            {
-                return response()->json(['Erro' => 'O arquivo enviado deve estar no formato CSV'],400);
-            }
-           
+         
 
             $arquivo = fopen($arquivo->path(),"r");
             $i = 0;
@@ -142,7 +137,7 @@ class UserController extends Controller
                     }
                     else
                     {
-                        return response()->json(['Erro' => 'CSV no formato incorreto'],400);
+                        return response()->json(['Erro' => 'Arquivo no formato incorreto'],400);
                     }
 
                 }

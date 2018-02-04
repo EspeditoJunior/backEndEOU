@@ -6,6 +6,12 @@ Banco de dados:
 
 Na pasta 'backEndEOU\scripts' esta o script de criacao do banco MySQL
 A conexao deve ser configurada no arquivo '.env' como a seguir
+Você pode executar o comando 'cp .env.example .env' para gerar o .env
+
+APP_ENV=local
+APP_DEBUG=true
+APP_KEY=
+APP_TIMEZONE=UTC
 
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -13,6 +19,9 @@ DB_PORT=3306
 DB_DATABASE=bancoeou
 DB_USERNAME=[seu usuario]
 DB_PASSWORD=[sua senha]
+
+CACHE_DRIVER=file
+QUEUE_DRIVER=sync
 
 
 Instalação:
