@@ -45,6 +45,7 @@ Exemplo do corpo da requisicao JSON:
 {"nome" : "Espedito","email" : "e.jr2342@hotmail.com","cpf" : "11111111111","telefone" : "1111111", "latitude": "-23.5632103", "longitude": "-46.6542503"}
 
 POST '/user/upload/csv' - upload de arquivo csv para cadastro de varios usuarios
+O arquivo deve ser enviado como um valor de 'form-data'
 O arquivo 'backEndEOU/listaUsuarios.csv' é um arquivo de teste, com o formato de csv usado
 
 O 'core' da aplicação esta no arquivo 'backEndEOU/Http/Controllers/UserController.php'
