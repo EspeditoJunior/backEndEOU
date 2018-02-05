@@ -52,24 +52,4 @@ class UserControllerTest extends TestCase
         ->seeJson(['longitude' => '4']);
     }
 
-    /*
-    public function testCSV()
-    {
-
-        $arquivo = new UploadedFile(base_path('storage\listaUsuarios.csv'), 'listaUsuarios',null,null,null,true);
-
-
-        var_dump($arquivo);
-
-        var_dump($this->post('user/upload/csv',[
-            'listaUsuarios' => $arquivo
-        ])->response->getContent());
-
-        $this->post('user/upload/csv',[
-            'listaUsuarios' => $arquivo
-        ])
-        ->seeStatusCode(200);
-    }
-    */
-
 }
